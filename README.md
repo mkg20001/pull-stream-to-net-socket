@@ -6,7 +6,7 @@ const toSocket = require('pull-stream-to-net-socket')
 
 # Why
 
-Every tried to use native TLS or any other nodeJS thing that requires net.Sockets or a net.Server?
+Ever tried to use native TLS or any other nodeJS thing that requires net.Sockets or a net.Server?
 
 It's way too complicated...
 
