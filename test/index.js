@@ -76,13 +76,13 @@ const dualTest = opt => cb => {
 }
 
 describe("pull-stream-to-net-socket", () => {
-  describe("one-side io", () => {
+  describe("simple io", () => {
     it("should correctly transmit the data", forwardTest({}))
     it("should correctly recieve the data", backwardTest({}))
     it("should correctly send data back and forth", dualTest({}))
     it("should work correctly in race")
   })
-  describe("one-side io reverse", () => {
+  describe("simple io reverse", () => {
     it("should correctly transmit the data", forwardTest({
       inverse: true
     }))
@@ -92,18 +92,6 @@ describe("pull-stream-to-net-socket", () => {
     it("should correctly send data back and forth", dualTest({
       inverse: true
     }))
-    it("should work correctly in race")
-  })
-  describe("two-side io", () => {
-    it("should correctly transmit the data")
-    it("should correctly recieve the data")
-    it("should correctly send data back and forth")
-    it("should work correctly in race")
-  })
-  describe("two-side io reverse", () => {
-    it("should correctly transmit the data")
-    it("should correctly recieve the data")
-    it("should correctly send data back and forth")
     it("should work correctly in race")
   })
   describe("tls-rsa", () => {
