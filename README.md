@@ -1,4 +1,6 @@
 # pull-stream-to-net-socket
+[![Build Status](https://travis-ci.org/mkg20001/pull-stream-to-net-socket.svg?branch=master)](https://travis-ci.org/mkg20001/pull-stream-to-net-socket) [![codecov](https://codecov.io/gh/mkg20001/pull-stream-to-net-socket/branch/master/graph/badge.svg)](https://codecov.io/gh/mkg20001/pull-stream-to-net-socket)
+
 Converts a pull-stream duplex into a net.Socket
 ```js
 const toSocket = require('pull-stream-to-net-socket')
@@ -6,7 +8,7 @@ const toSocket = require('pull-stream-to-net-socket')
 
 # Why
 
-Ever tried to use native TLS or any other nodeJS thing that requires net.Sockets or a net.Server?
+Ever tried to use native TLS or any other nodeJS thing that requires net.Sockets or a net.Server with pull-streams?
 
 It's way too complicated...
 
@@ -17,7 +19,7 @@ That's why I created `pull-stream-to-net-socket`
 
 - `duplex`: A pull-stream duplex stream
 - `options`: An object containing the options
-  - `createServer`: Custom function used instead of `net.createServer`
+  - `createServer`: Custom function used instead of `net.createServer()`
   - `createClient`: Custom function used instead of `net.connect(server.address())`
 
   Both `createServer` and `createClient` listen for secureConnect(ion) instead of the connect(ion) event if the return value is a `tls.TLSSocket` or `tls.Server` instance
@@ -56,6 +58,7 @@ toSocket(duplex, {
 }, (err, client) => {
   if (err) throw err //possibly some cert error. try setting "rejectUnauthorized: false"
   //client is a tls.TLSSocket instance that can be converted to a pull-stream
+  client.run() //call this after async io or just before you convert the stream to a pull-stream
   pull(
     pull.values(["hello world"]),
     toPull.duplex(client),
@@ -75,8 +78,9 @@ toSocket(duplex, {
   prefire: true, //prevent said deadlock
   inverse: true //make the server the primary target / "connect to client" mode
 }, (err, client) => {
-  if (err) throw err //possibly some cert error. try setting "rejectUnauthorized: false"
+  if (err) throw err //most likely a crypto error
   //client is a tls.TLSSocket instance that can be converted to a pull-stream
+  client.run() //call this after async io or just before you convert the stream to a pull-stream
   pull(
     pull.values(["hello world"]),
     toPull.duplex(client),
