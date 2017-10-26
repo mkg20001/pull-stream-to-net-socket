@@ -28,6 +28,28 @@ describe("pull-stream-to-net-socket", () => {
         )
       })
     })
-
+    it("should correctly recieve the data")
+    it("should work correctly in race")
   })
+  describe("one-side io reverse", () => {
+    it("should correctly transmit the data")
+    it("should correctly recieve the data")
+    it("should work correctly in race")
+  })
+  describe("two-side io", () => {
+    it("should correctly transmit the data")
+    it("should correctly recieve the data")
+    it("should work correctly in race")
+  })
+  describe("two-side io reverse", () => {
+    it("should correctly transmit the data")
+    it("should correctly recieve the data")
+    it("should work correctly in race")
+  })
+  describe("tls-rsa", () => {
+    it("should correctly transmit the data")
+    it("should correctly recieve the data")
+    it("should work correctly in race")
+  })
+  describe.skip("option validation")
 })
