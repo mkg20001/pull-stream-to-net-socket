@@ -2,6 +2,7 @@
 
 const toStream = require("pull-stream-to-stream")
 const net = require("net")
+const tls = require("tls")
 
 const debug = require("debug")
 const _log = debug("pull-stream-to-net-socket")
@@ -52,12 +53,12 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
     const addr = server.address()
     const client = (opt.createClient || createClient)(addr)
     log("create client")
-    client.once("connect", () => {
+    client.once(client instanceof tls.TLSSocket ? "secureConnect" : "connect", () => {
       log("client connected")
       ee.emit("conn", "client", client)
     })
     client.once("error", e => cb(e))
-    server.once("connection", conn => {
+    server.once(server instanceof tls.Server ? "secureConnection" : "connection", conn => {
       log("server-side client connected")
       ee.emit("conn", "server", conn)
       log("shutting down server")
