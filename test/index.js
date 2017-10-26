@@ -129,9 +129,12 @@ describe("pull-stream-to-net-socket", () => {
       })
       const duplex = toPull.duplex(client) //this is representing a client that is using pull-streams everywhere
       toSocket(duplex, {
-        createClient: (dest) => dest.checkServerIdentity = () => {} && tls.connect({
-          checkServerIdentity: () => {} //we are connecting to localhost
-        }),
+        createClient: (dest) => {
+          dest.checkServerIdentity = () => {}
+          tls.connect({
+            checkServerIdentity: () => {} //we are connecting to localhost
+          })
+        },
         prefire: true //ensures the data from the server get's send after connection otherwise secureConnect never gets called
       }, (err, client) => {
         expect(err).to.not.exist()
