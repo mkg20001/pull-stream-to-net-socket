@@ -1,0 +1,31 @@
+{
+  "name": "pull-stream-to-net-socket",
+  "version": "0.0.1",
+  "description": "Converts a pull-stream duplex into a net.Socket",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "pull-stream",
+    "net-socket",
+    "stream",
+    "convert"
+  ],
+  "author": "Maciej Krüger <mkg20001@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "pull-stream-to-stream": "^1.3.4"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "dirty-chai": "^2.0.1",
+    "mocha": "^4.0.1",
+    "pull-queue": "^0.1.4",
+    "pull-stream": "^3.6.1",
+    "stream-to-pull-stream": "^1.7.2"
+  }
+}
