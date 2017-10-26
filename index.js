@@ -39,6 +39,9 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
       ee.emit("conn", "client", client)
     })
     client.once("error", e => cb(e))
-    server.once("connection", conn => ee.emit("conn", "server", conn))
+    server.once("connection", conn => {
+      ee.emit("conn", "server", conn)
+      server.close()
+    })
   })
 }
