@@ -33,7 +33,7 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
       const server = c.server
       log("calling cb")
       if (opt.inverse) {
-        server.run = () => {
+        if (!opt.prefire) server.run = () => {
           log("establishing circuit")
           const conn = toStream(stream)
           conn.pipe(client) //conn -> (pull) -> client -> (net) -> server
@@ -42,7 +42,7 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
         }
         cb(null, c.server, client)
       } else {
-        client.run = () => {
+        if (!opt.prefire) client.run = () => {
           log("establishing circuit")
           const conn = toStream(stream)
           conn.pipe(server) //conn -> (pull) -> server -> (net) -> client
