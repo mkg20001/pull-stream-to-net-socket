@@ -27,5 +27,13 @@
     "pull-queue": "^0.1.4",
     "pull-stream": "^3.6.1",
     "stream-to-pull-stream": "^1.7.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkg20001/pull-stream-to-net-socket.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mkg20001/pull-stream-to-net-socket/issues"
+  },
+  "homepage": "https://github.com/mkg20001/pull-stream-to-net-socket#readme"
 }
