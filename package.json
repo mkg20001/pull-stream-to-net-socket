@@ -1,6 +1,6 @@
 {
   "name": "pull-stream-to-net-socket",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Converts a pull-stream duplex into a net.Socket",
   "main": "index.js",
   "scripts": {
