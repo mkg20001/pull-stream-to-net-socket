@@ -23,7 +23,6 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
   if (!opt) opt = {}
   log("create", opt)
   log("create server")
-  const server = (opt.createServer || createServer)()
   const ee = new EE()
   let c = {}
   ee.on("conn", (from, conn) => {
@@ -31,23 +30,30 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
     c[from] = conn
     if (c.server && c.client) {
       const client = c.client
-      c.client.run = () => {
-        log("establishing circuit")
-        const conn = toStream(stream)
-        const connserver = c.server
-        if (opt.inverse) {
+      const server = c.server
+      log("calling cb")
+      if (opt.inverse) {
+        server.run = () => {
+          log("establishing circuit")
+          const conn = toStream(stream)
           conn.pipe(client) //conn -> (pull) -> client -> (net) -> server
           client.pipe(conn) //server -> (net) -> client -> (pull) -> conn
-        } else {
-          conn.pipe(connserver) //conn -> (pull) -> server -> (net) -> client
-          connserver.pipe(conn) //client -> (net) -> server -> (pull) -> conn
+          log("done")
         }
-        log("done")
+        cb(null, c.server, client)
+      } else {
+        client.run = () => {
+          log("establishing circuit")
+          const conn = toStream(stream)
+          conn.pipe(server) //conn -> (pull) -> server -> (net) -> client
+          server.pipe(conn) //client -> (net) -> server -> (pull) -> conn
+          log("done")
+        }
+        cb(null, client, server)
       }
-      log("calling cb")
-      return cb(null, client, c.server)
     }
   })
+  const server = (opt.createServer || createServer)()
   server.listen(0, err => {
     if (err) return cb(err)
     const addr = server.address()
