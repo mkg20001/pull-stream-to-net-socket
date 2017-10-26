@@ -4,7 +4,9 @@
   "description": "Converts a pull-stream duplex into a net.Socket",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha",
+    "watch": "nodemon -x mocha",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
   },
   "keywords": [
     "pull-stream",
@@ -25,6 +27,7 @@
     "chai": "^4.1.2",
     "dirty-chai": "^2.0.1",
     "mocha": "^4.0.1",
+    "nyc": "^11.2.1",
     "pull-queue": "^0.1.4",
     "pull-stream": "^3.6.1",
     "stream-to-pull-stream": "^1.7.2"
