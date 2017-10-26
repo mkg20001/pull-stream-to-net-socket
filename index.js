@@ -62,11 +62,26 @@ module.exports = function pullStreamToNetSocket(stream, opt, cb) {
     client.once(client instanceof tls.TLSSocket ? "secureConnect" : "connect", () => {
       log("client connected")
       ee.emit("conn", "client", client)
+      if (opt.prefire && opt.inverse) {
+        log("establishing circuit (prefire)")
+        const conn = toStream(stream)
+        conn.pipe(client) //conn -> (pull) -> client -> (net) -> server
+        client.pipe(conn) //server -> (net) -> client -> (pull) -> conn
+        log("done")
+      }
     })
     client.once("error", e => cb(e))
     server.once(server instanceof tls.Server ? "secureConnection" : "connection", conn => {
       log("server-side client connected")
       ee.emit("conn", "server", conn)
+      if (opt.prefire && !opt.inverse) {
+        log("establishing circuit (prefire)")
+        const server = conn
+        conn = toStream(stream)
+        conn.pipe(server) //conn -> (pull) -> server -> (net) -> client
+        server.pipe(conn) //client -> (net) -> server -> (pull) -> conn
+        log("done")
+      }
       log("shutting down server")
       server.close()
     })
